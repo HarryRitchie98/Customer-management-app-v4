@@ -99,7 +99,7 @@ import java.util.Scanner;
 
                     }
                     break;
-                    
+
                 //Update user
                 case "3":
                     try {
@@ -145,6 +145,36 @@ import java.util.Scanner;
                         e.printStackTrace();
                     }
                     break;
+
+                //Delete user
+                case "4":
+                    try {
+                        //Connection to DB
+                        Class.forName("com.mysql.cj.jdbc.Driver");
+                        Connection connection = DriverManager.getConnection(jdbcURL, usernameDB, passwordDB);
+
+                        //Enter user_id to be deleted
+                        Scanner user1 = new Scanner(System.in);
+                        System.out.println("What is the user_id?");
+                        int user_id_entry = user1.nextInt();
+                        user1.nextLine();
+
+                        //Deleting SQL entries
+                        PreparedStatement statement = connection.prepareStatement(deleteUsersSQL);
+                        statement.setInt(1, user_id_entry);
+
+                        boolean deletedRow = statement.executeUpdate() > 0;
+
+                        if (deletedRow) {
+                            System.out.println("Row deleted successfully");
+                        }
+
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    } break;
+
             }
         }
     }
