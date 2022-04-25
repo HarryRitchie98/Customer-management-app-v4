@@ -71,8 +71,34 @@ import java.util.Scanner;
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();
                     }
+                    //View users
+                case "2":
+                    try {
+                        //Connection to DB
+                        Class.forName("com.mysql.cj.jdbc.Driver");
+                        Connection connection = DriverManager.getConnection(jdbcURL, usernameDB, passwordDB);
 
+                        //Read SQL entries
+                        PreparedStatement statement = connection.prepareStatement(selectAllUsersSQL);
 
+                        //Execute the query
+                        ResultSet rs = statement.executeQuery();
+
+                        while (rs.next()) {
+                            int user_id = rs.getInt("user_id");
+                            String username = rs.getString("username");
+                            String password = rs.getString("password");
+                            String email = rs.getString("email");
+                            String name = rs.getString("name");
+                            System.out.println(user_id + " " + username + " " + password + " " + email + " " + name);
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+
+                    } break;
+                    
             }
         }
     }
