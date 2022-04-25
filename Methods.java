@@ -97,8 +97,54 @@ import java.util.Scanner;
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();
 
-                    } break;
+                    }
+                    break;
                     
+                //Update user
+                case "3":
+                    try {
+                        //Connection to DB
+                        Class.forName("com.mysql.cj.jdbc.Driver");
+                        Connection connection = DriverManager.getConnection(jdbcURL, usernameDB, passwordDB);
+
+                        //Enter user_id to be updated
+                        Scanner user1 = new Scanner(System.in);
+                        System.out.println("What is the user_id");
+                        int user_id_entry = user1.nextInt();
+                        user1.nextLine();
+
+                        //Update customer options
+                        Scanner case3 = new Scanner(System.in);
+                        System.out.println("Enter the new username");
+                        String username = user1.nextLine();
+                        System.out.println("Enter the new password");
+                        String password = user1.nextLine();
+                        System.out.println("Enter the new email");
+                        String email = user1.nextLine();
+                        System.out.println("Enter the new name");
+                        String name = user1.nextLine();
+
+                        //Update SQL entries
+                        PreparedStatement statement = connection.prepareStatement(updateUsersSQL);
+                        statement.setString(1, username);
+                        statement.setString(2, password);
+                        statement.setString(3, email);
+                        statement.setString(4, name);
+                        statement.setInt(5, user_id_entry);
+
+                        //Execute the query
+                        int rs = statement.executeUpdate();
+
+                        if (rs > 0) {
+                            System.out.println("Row successfully updated");
+                        }
+
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    break;
             }
         }
     }
